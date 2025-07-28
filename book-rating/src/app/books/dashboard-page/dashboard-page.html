@@ -1,5 +1,7 @@
 @for (b of books(); track b.isbn) {
-  <h2>{{ b.title }}</h2>
-  <p>{{ b.description }}</p>
-  
+  <app-book-card [book]="b" foo="hdfukghdfjk" />
 }
+
+
+
+let book = "b";
