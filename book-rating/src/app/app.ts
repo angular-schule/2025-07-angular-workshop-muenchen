@@ -12,15 +12,3 @@ import { DashboardPage } from "./books/dashboard-page/dashboard-page";
 export class App {
   protected readonly title = signal('book-rating');
 }
-
-
-/*
-TODO:
-- Datenstruktur
-- Array mit Büchern
-- Daten speichern in Signal
-- Template zur Anzeige
-- (Buchkomponente?)
-
-*/
-
