@@ -1,17 +1,23 @@
 import { Component, signal } from '@angular/core';
 import { Book } from '../shared/book';
 import { BookCard } from '../book-card/book-card';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [BookCard],
+  imports: [BookCard, DatePipe],
   templateUrl: './dashboard-page.html',
   styleUrl: './dashboard-page.scss'
 })
 export class DashboardPage {
   protected books = signal<Book[]>([]);
+  protected today = signal(new Date());
 
   constructor() {
+    setInterval(() => {
+      this.today.set(new Date())
+    }, 1000);
+
     this.books.set([
       {
         isbn: '123',
