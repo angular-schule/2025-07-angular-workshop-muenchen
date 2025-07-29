@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Book } from '../shared/book';
 import { BookCard } from '../book-card/book-card';
 import { DatePipe } from '@angular/common';
+import { BookRatingHelper } from '../shared/book-rating-helper';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -12,6 +13,8 @@ import { DatePipe } from '@angular/common';
 export class DashboardPage {
   protected books = signal<Book[]>([]);
   protected today = signal(new Date());
+
+  #ratingHelper = inject(BookRatingHelper);
 
   constructor() {
     setInterval(() => {
@@ -39,20 +42,12 @@ export class DashboardPage {
   }
 
   doRateUp(book: Book) {
-    const ratedBook = {
-      ...book,
-      // rating: Math.min(book.rating + 1, 5)
-      rating: book.rating >= 5 ? 5 : book.rating + 1
-    };
-
+    const ratedBook = this.#ratingHelper.rateUp(book);
     this.#updateList(ratedBook);
   }
 
   doRateDown(book: Book) {
-    const ratedBook = {
-      ...book,
-      rating: Math.max(book.rating - 1, 1)
-    };
+    const ratedBook = this.#ratingHelper.rateDown(book);
     this.#updateList(ratedBook);
   }
 
