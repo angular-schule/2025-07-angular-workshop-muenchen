@@ -9,6 +9,10 @@ import { Component, signal } from '@angular/core';
 export class CounterDisplay {
   protected readonly counterValue = signal(0);
 
+  constructor() {
+    console.log(this.counterValue());
+  }
+
   increment() {
     // this.counterValue.set(this.counterValue() + 1);
     this.counterValue.update(value => value + 1);
