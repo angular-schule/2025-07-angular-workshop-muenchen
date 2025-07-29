@@ -3,7 +3,7 @@
 <div class="card mb-4">
   <div class="card-body bg-light">
       <img class="img-thumbnail float-end" alt=""
-        src="https://api.angular.schule/avatar/{{ b.rating }}">
+        [src]="b.firstThumbnailUrl">
     <div class="card-title">
       <h2>
         {{ b.title }}
