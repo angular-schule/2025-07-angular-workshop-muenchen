@@ -73,14 +73,3 @@ export class DashboardPage {
 }
 
 
-/*
-TODO:
-- Datenstruktur ✅
-- Array mit Büchern
-- Daten speichern in Signal
-- Template zur Anzeige
-- (Buchkomponente?)
-
-*/
-
-
