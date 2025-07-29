@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { Book } from '../shared/book';
 import { CurrencyPipe } from '@angular/common';
 import { RatingDisplay } from '../rating-display/rating-display';
@@ -15,10 +15,18 @@ export class BookCard {
   readonly book = input.required<Book>();
   readonly headline = input('Hallo Welt');
 
+  // Output: hier fließen Daten zur Elternkomponente hinaus
+  // von unten nach oben
+  readonly rateUp = output<Book>();
+  readonly rateDown = output<Book>();
+
   protected readonly authorList = computed(() => this.book().authors.join(', '));
 
+  doRateUp() {
+    this.rateUp.emit(this.book());
+  }
 
-  // AUFGABE:
-  // Computed bauen, das das Autoren-Array zu einem großen String zusammenführt
-  // dann im Template anzeigen
+  doRateDown() {
+    this.rateDown.emit(this.book());
+  }
 }
