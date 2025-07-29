@@ -39,11 +39,36 @@ export class DashboardPage {
   }
 
   doRateUp(book: Book) {
-    console.log('UP', book);
+    const ratedBook = {
+      ...book,
+      // rating: Math.min(book.rating + 1, 5)
+      rating: book.rating >= 5 ? 5 : book.rating + 1
+    };
+
+    this.#updateList(ratedBook);
   }
 
   doRateDown(book: Book) {
-    console.log('DOWN', book);
+    const ratedBook = {
+      ...book,
+      rating: Math.max(book.rating - 1, 1)
+    };
+    this.#updateList(ratedBook);
+  }
+
+  #updateList(ratedBook: Book) {
+    this.books.update(currentList => {
+      return currentList.map(b => {
+        if (b.isbn === ratedBook.isbn) {
+          return ratedBook;
+        } else {
+          return b;
+        }
+      });
+    });
+
+    // [1,2,3,4,5].map(e => e * 10) // [10, 20, 30, 40, 50]
+    // [1,2,3,4,5,6,7,8,9].filter(e => e < 5) // [1, 2, 3, 4]
   }
 }
 
