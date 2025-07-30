@@ -1,7 +1,11 @@
 <div class="container">
   <nav>
-    <a class="me-2" [routerLink]="['/counter']">Counter</a>
-    <a class="me-2" [routerLink]="['/books']">Books</a>
+    <a class="me-2" [routerLink]="['/counter']" [routerLinkActive]="['active']">Counter</a>
+    <a class="me-2" [routerLink]="['/books']"
+      [routerLinkActive]="['active']"
+      [routerLinkActiveOptions]="{ exact: true }">Books</a>
+    <a class="me-2" [routerLink]="['/books/create']" [routerLinkActive]="['active']">Create</a>
+    <a class="me-2" [routerLink]="['/books/search']" [routerLinkActive]="['active']">Search</a>
   </nav>
 
   <h1>{{ title() }}</h1>
