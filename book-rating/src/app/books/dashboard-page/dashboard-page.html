@@ -2,7 +2,8 @@
   <app-book-card
     [book]="b"
     (rateUp)="doRateUp($event)"
-    (rateDown)="doRateDown($event)" />
+    (rateDown)="doRateDown($event)"
+    (deleteBook)="doDeleteBook($event.isbn)" />
 }
 
 <p>

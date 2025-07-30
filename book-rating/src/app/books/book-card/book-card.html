@@ -16,6 +16,7 @@
 
     <button type="button" [disabled]="b.rating >= 5" class="btn btn-green" (click)="doRateUp()"> + </button>
     <button type="button" [disabled]="b.rating <= 1" class="btn btn-red" (click)="doRateDown()"> – </button>
+    <button type="button" class="btn btn-yellow" (click)="doDeleteBook()">Löschen</button>
   </div>
 </div>
 

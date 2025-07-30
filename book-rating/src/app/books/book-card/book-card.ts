@@ -19,6 +19,7 @@ export class BookCard {
   // von unten nach oben
   readonly rateUp = output<Book>();
   readonly rateDown = output<Book>();
+  readonly deleteBook = output<Book>();
 
   protected readonly authorList = computed(() => this.book().authors.join(', '));
 
@@ -28,5 +29,9 @@ export class BookCard {
 
   doRateDown() {
     this.rateDown.emit(this.book());
+  }
+
+  doDeleteBook() {
+    this.deleteBook.emit(this.book());
   }
 }

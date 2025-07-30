@@ -52,6 +52,21 @@ export class DashboardPage {
     // [1,2,3,4,5].map(e => e * 10) // [10, 20, 30, 40, 50]
     // [1,2,3,4,5,6,7,8,9].filter(e => e < 5) // [1, 2, 3, 4]
   }
+
+  doDeleteBook(isbn: string) {
+    this.#bookStore.delete(isbn).subscribe(() => {
+      // a) Buchliste neu laden
+      this.#bookStore.getAll().subscribe(receivedBooks => {
+        this.books.set(receivedBooks);
+      });
+
+      // b) Liste lokal filtern
+      /*this.books.update(currentList => {
+        return currentList.filter(b => b.isbn !== isbn);
+      });*/
+    });
+
+  }
 }
 
 
