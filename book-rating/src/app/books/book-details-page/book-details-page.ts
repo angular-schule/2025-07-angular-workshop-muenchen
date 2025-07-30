@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { BookStore } from '../shared/book-store';
+import { Book } from '../shared/book';
 
 @Component({
   selector: 'app-book-details-page',
@@ -8,5 +10,31 @@ import { RouterLink } from '@angular/router';
   styleUrl: './book-details-page.scss'
 })
 export class BookDetailsPage {
+  #route = inject(ActivatedRoute);
+  #bookStore = inject(BookStore);
 
+  protected readonly book = signal<Book | undefined>(undefined);
+
+  constructor() {
+    // PULL
+    // const isbn = this.#route.snapshot.paramMap.get('isbn'); // path: 'books/:isbn'
+
+    // PUSH
+    this.#route.paramMap.subscribe(params => {
+      const isbn = params.get('isbn');
+      console.log(isbn);
+      if (isbn) {
+        this.#bookStore.getSingle(isbn).subscribe(b => {
+          this.book.set(b);
+        });
+      }
+    });
+  }
 }
+
+
+/*
+  - ISBN aus der URL ✅
+  - Buch abrufen per HTTP
+  - Buch anzeigen (ganz simpel)
+  */
