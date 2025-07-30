@@ -1,4 +1,9 @@
 <div class="container">
+  <nav>
+    <a class="me-2" [routerLink]="['/counter']">Counter</a>
+    <a class="me-2" [routerLink]="['/books']">Books</a>
+  </nav>
+
   <h1>{{ title() }}</h1>
 
   <!-- Outlet: hier wird die geroutete Komponente angezeigt -->

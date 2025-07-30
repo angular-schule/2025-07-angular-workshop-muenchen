@@ -18,6 +18,21 @@
     <button type="button" [disabled]="b.rating <= 1" class="btn btn-red" (click)="doRateDown()"> – </button>
     <button type="button" class="btn btn-yellow" (click)="doDeleteBook()">Löschen</button>
 
+    <!--
+      1. eckige Klammern ja/nein
+      2. wenn eckige Klammern, dann: Array oder String
+      3. relative oder absolute Pfade
+    -->
+
+    <a [routerLink]="['/books', b.isbn]">Details</a>
+
+    <!--<a routerLink="/books">Dashboard</a>
+    <a [routerLink]="'/books/' + b.isbn">Details</a>
+
+    <a [routerLink]="['..', 'books', b.isbn]">Details</a>
+    <a [routerLink]="['.', b.isbn]">Details</a>
+    <a [routerLink]="[b.isbn]">Details</a>
+    <a [routerLink]="b.isbn">Details</a>-->
 
   </div>
 </div>
