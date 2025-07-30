@@ -1,12 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CounterDisplay } from "./counter-display/counter-display";
-import { DashboardPage } from "./books/dashboard-page/dashboard-page";
 import { Observable, Observer, Subscriber } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CounterDisplay, DashboardPage],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
