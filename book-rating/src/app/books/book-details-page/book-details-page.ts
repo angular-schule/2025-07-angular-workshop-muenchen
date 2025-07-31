@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BookStore } from '../shared/book-store';
 import { Book } from '../shared/book';
+import { filter, map, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-book-details-page',
@@ -19,16 +20,14 @@ export class BookDetailsPage {
     // PULL
     // const isbn = this.#route.snapshot.paramMap.get('isbn'); // path: 'books/:isbn'
 
-    // PUSH
-    this.#route.paramMap.subscribe(params => {
-      const isbn = params.get('isbn');
-      console.log(isbn);
-      if (isbn) {
-        this.#bookStore.getSingle(isbn).subscribe(b => {
-          this.book.set(b);
-        });
-      }
+    this.#route.paramMap.pipe(
+      map(params => params.get('isbn')),
+      filter(isbn => isbn !== null),
+      switchMap(isbn => this.#bookStore.getSingle(isbn))
+    ).subscribe(b => {
+      this.book.set(b);
     });
+
   }
 }
 
