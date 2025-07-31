@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { BehaviorSubject, filter, interval, map, Observable, Observer, of, Subject, Subscriber, timer } from 'rxjs';
+import { BehaviorSubject, filter, interval, map, mergeAll, mergeMap, Observable, Observer, of, Subject, Subscriber, take, timer } from 'rxjs';
+import { BookStore } from './books/shared/book-store';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,21 @@ import { BehaviorSubject, filter, interval, map, Observable, Observer, of, Subje
 export class App {
   protected readonly title = signal('book-rating');
 
-  constructor() {
+  #bookStore = inject(BookStore);
 
+  constructor() {
+    // Observable, das 3 Elemente im Abstand von 150ms ausgibt
+    const threeFastNumbers$ = timer(0, 150).pipe(take(3));
+
+    // Alle 5 Sekunden wird eine Dreiergruppe ausgegeben
+    /*timer(0, 5000).pipe(
+      mergeMap(() => threeFastNumbers$),
+    ).subscribe(e => console.log(e, Date.now()));*/
+
+
+
+
+    /*
     const subject$ = new BehaviorSubject<number>(0);
 
     subject$.subscribe(e => console.log('A', e));
@@ -22,7 +36,7 @@ export class App {
     subject$.next(5);
 
     subject$.subscribe(e => console.log('D', e));
-
+    */
 
 
     // of('München', 'Stuttgart', 'Frankfurt')
