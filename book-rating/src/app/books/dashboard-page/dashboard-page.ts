@@ -4,6 +4,7 @@ import { BookCard } from '../book-card/book-card';
 import { DatePipe } from '@angular/common';
 import { BookRatingHelper } from '../shared/book-rating-helper';
 import { BookStore } from '../shared/book-store';
+import { interval, map } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -23,9 +24,11 @@ export class DashboardPage {
       this.books.set(receivedBooks);
     });
 
-    setInterval(() => {
-      this.today.set(new Date())
-    }, 1000);
+    interval(1000).pipe(
+      map(() => new Date())
+    ).subscribe(value => {
+      this.today.set(value)
+    });
   }
 
   doRateUp(book: Book) {
