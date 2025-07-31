@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { BookRatingHelper } from '../shared/book-rating-helper';
 import { BookStore } from '../shared/book-store';
 import { interval, map, Subject, Subscription, takeUntil, timer } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -19,7 +20,7 @@ export class DashboardPage {
   #ratingHelper = inject(BookRatingHelper);
   #bookStore = inject(BookStore);
 
-  #destroy$ = new Subject<void>();
+  // #destroy$ = new Subject<void>();
 
   constructor() {
     this.#bookStore.getAll().subscribe(receivedBooks => {
@@ -28,7 +29,7 @@ export class DashboardPage {
 
     interval(1000).pipe(
       map(() => new Date()),
-      takeUntil(this.#destroy$)
+      takeUntilDestroyed()
     ).subscribe({
       next: value => {
         this.today.set(value)
@@ -78,10 +79,10 @@ export class DashboardPage {
 
   }
 
-  ngOnDestroy() {
+  /*ngOnDestroy() {
     console.log('DESTROY');
     this.#destroy$.next();
-  }
+  }*/
 }
 
 
