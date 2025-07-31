@@ -2,7 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BookStore } from '../shared/book-store';
 import { Book } from '../shared/book';
-import { filter, map, switchMap } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-book-details-page',
@@ -14,26 +15,9 @@ export class BookDetailsPage {
   #route = inject(ActivatedRoute);
   #bookStore = inject(BookStore);
 
-  protected readonly book = signal<Book | undefined>(undefined);
-
-  constructor() {
-    // PULL
-    // const isbn = this.#route.snapshot.paramMap.get('isbn'); // path: 'books/:isbn'
-
-    this.#route.paramMap.pipe(
-      map(params => params.get('isbn')),
-      filter(isbn => isbn !== null),
-      switchMap(isbn => this.#bookStore.getSingle(isbn))
-    ).subscribe(b => {
-      this.book.set(b);
-    });
-
-  }
+  protected readonly book = toSignal(this.#route.paramMap.pipe(
+    map(params => params.get('isbn')),
+    filter(isbn => isbn !== null),
+    switchMap(isbn => this.#bookStore.getSingle(isbn))
+  ));
 }
-
-
-/*
-  - ISBN aus der URL ✅
-  - Buch abrufen per HTTP
-  - Buch anzeigen (ganz simpel)
-  */
