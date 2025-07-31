@@ -1,15 +1,26 @@
 @let c = bookForm.controls;
 
-<form [formGroup]="bookForm">
+<form [formGroup]="bookForm" (ngSubmit)="submitForm()">
 
   <div class="form-group">
     <label for="isbnInput">ISBN</label>
     <input type="text" id="isbnInput" class="form-control" [formControl]="c.isbn">
+
+    @if (c.isbn.invalid && c.isbn.touched) {
+      <div class="feedback-error">Die ISBN ist ungültig.</div>
+    }
+
+    @if (c.isbn.hasError('minlength') && c.isbn.touched) {<div class="feedback-error">Die ISBN ist zu kurz.</div>}
+    @if (c.isbn.hasError('maxlength') && c.isbn.touched) {<div class="feedback-error">Die ISBN ist zu lang.</div>}
+    @if (c.isbn.hasError('required') && c.isbn.touched) {<div class="feedback-error">Die ISBN muss angegeben werden.</div>}
+    @if (c.isbn.hasError('pattern') && c.isbn.touched) {<div class="feedback-error">Die ISBN hat das falsche Format.</div>}
+
+    <pre>{{ c.isbn.errors | json }}</pre>
   </div>
 
   <div class="form-group">
     <label for="titleInput">Title</label>
-    <input type="text" id="titleInput" class="form-control" [formControl]="c.title">
+    <input type="text" id="titleInput" maxlength="20" class="form-control" [formControl]="c.title">
   </div>
 
   <div class="form-group">
@@ -26,6 +37,8 @@
     <label for="priceInput">Price</label>
     <input type="number" id="priceInput" class="form-control" [formControl]="c.price">
   </div>
+
+  <button type="submit" [disabled]="bookForm.invalid" class="btn btn-green">Submit</button>
 </form>
 
 
