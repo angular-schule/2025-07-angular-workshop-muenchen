@@ -1,3 +1,5 @@
+<p>Datum: {{ today() | date:'dd.MM.yyyy / HH:mm:ss' }}</p>
+
 @for (b of books(); track b.isbn) {
   <app-book-card
     [book]="b"
@@ -9,6 +11,3 @@
 <p>
   Anzahl Bücher: {{ books().length }}
 </p>
-
-
-<p>Datum: {{ today() | date:'dd.MM.yyyy / HH:mm:ss' }}</p>
