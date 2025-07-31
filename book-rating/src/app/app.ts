@@ -23,10 +23,10 @@ export class App {
     timer(0, 1000).pipe(
       map(e => e * 3),
       filter(e => e % 2 === 0)
-    ).subscribe({
+    )/*.subscribe({
       next: e => console.log(e),
       complete: () => console.log('COMPLETE')
-    })
+    })*/
 
     //////////////////////////////////////
 

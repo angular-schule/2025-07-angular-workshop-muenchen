@@ -4,7 +4,7 @@ import { BookCard } from '../book-card/book-card';
 import { DatePipe } from '@angular/common';
 import { BookRatingHelper } from '../shared/book-rating-helper';
 import { BookStore } from '../shared/book-store';
-import { interval, map } from 'rxjs';
+import { interval, map, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -19,15 +19,18 @@ export class DashboardPage {
   #ratingHelper = inject(BookRatingHelper);
   #bookStore = inject(BookStore);
 
+  #sub: Subscription;
+
   constructor() {
     this.#bookStore.getAll().subscribe(receivedBooks => {
       this.books.set(receivedBooks);
     });
 
-    interval(1000).pipe(
+    this.#sub = interval(1000).pipe(
       map(() => new Date())
     ).subscribe(value => {
       this.today.set(value)
+      console.log('SUB', value);
     });
   }
 
@@ -69,6 +72,11 @@ export class DashboardPage {
       });*/
     });
 
+  }
+
+  ngOnDestroy() {
+    console.log('DESTROY');
+    this.#sub.unsubscribe();
   }
 }
 
