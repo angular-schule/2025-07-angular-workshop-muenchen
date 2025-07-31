@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { Observable, Observer, Subscriber } from 'rxjs';
+import { filter, interval, map, Observable, Observer, of, Subscriber, timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +12,23 @@ export class App {
   protected readonly title = signal('book-rating');
 
   constructor() {
+
+    // of('München', 'Stuttgart', 'Frankfurt')
+    // interval(1000)       // ---0---1---2---3---4---5 ...
+    // timer(2000)          // ------0|
+    // timer(2000, 1000)    // ------0---1---2---3---4---5 ...
+    // timer(0, 1000)       // 0---1---2---3---4---5 ...
+
+
+    timer(0, 1000).pipe(
+      map(e => e * 3),
+      filter(e => e % 2 === 0)
+    ).subscribe({
+      next: e => console.log(e),
+      complete: () => console.log('COMPLETE')
+    })
+
+    //////////////////////////////////////
 
     // Producer: generiert die Werte
     function producer(sub: Subscriber<number>) {
