@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { filter, interval, map, Observable, Observer, of, Subscriber, timer } from 'rxjs';
+import { BehaviorSubject, filter, interval, map, Observable, Observer, of, Subject, Subscriber, timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +12,18 @@ export class App {
   protected readonly title = signal('book-rating');
 
   constructor() {
+
+    const subject$ = new BehaviorSubject<number>(0);
+
+    subject$.subscribe(e => console.log('A', e));
+    subject$.subscribe(e => console.log('B', e));
+    subject$.subscribe(e => console.log('C', e));
+
+    subject$.next(5);
+
+    subject$.subscribe(e => console.log('D', e));
+
+
 
     // of('München', 'Stuttgart', 'Frankfurt')
     // interval(1000)       // ---0---1---2---3---4---5 ...
