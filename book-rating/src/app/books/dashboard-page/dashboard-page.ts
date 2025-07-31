@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 import { BookRatingHelper } from '../shared/book-rating-helper';
 import { BookStore } from '../shared/book-store';
 import { interval, map, Subject, Subscription, takeUntil, timer } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -15,7 +15,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class DashboardPage {
   protected books = signal<Book[]>([]);
-  protected today = signal(new Date());
+  protected today = toSignal(
+    interval(1000).pipe(
+      map(() => new Date())
+    ),
+    { initialValue: new Date() }
+  );
 
   #ratingHelper = inject(BookRatingHelper);
   #bookStore = inject(BookStore);
@@ -27,16 +32,7 @@ export class DashboardPage {
       this.books.set(receivedBooks);
     });
 
-    interval(1000).pipe(
-      map(() => new Date()),
-      takeUntilDestroyed()
-    ).subscribe({
-      next: value => {
-        this.today.set(value)
-        console.log('SUB', value);
-      },
-      complete: () => console.log('COMPLETE')
-    });
+
   }
 
   doRateUp(book: Book) {
